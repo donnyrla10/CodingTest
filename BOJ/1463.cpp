@@ -1,46 +1,25 @@
 #include <iostream>
+#include <vector>
 #include <algorithm>
-#define num 12
 using namespace std;
-int n, number[num], op[5];
-int _max = -1000000000, _min = 1000000000;
 
-void input(){
-    cin >> n;
-    for(int i=1; i<=n; i++) cin >> number[i];
-    for(int i=1; i<=4; i++) cin >> op[i];
-}
-
-int operation(int op1, int op, int op2){
-    switch(op){
-        case 1: return op1 + op2;
-        case 2: return op1 - op2;
-        case 3: return op1 * op2;
-        case 4: return op1 / op2;
-        default: return -1;
-    }
-}
-
-void rf(int k, int total){
-    if(k==n){
-        _max = max(_max, total);
-        _min = min(_min, total);
-        return;
+void solution(int x){
+    vector<int> dp(x+1);
+    dp[1] = 0;
+    
+    for(int i=2; i<=x; i++){
+        dp[i] = dp[i-1] + 1; //1. 1을 뺀다
+        if(i%3==0) dp[i] = min(dp[i], dp[i/3]+1);
+        if(i%2==0) dp[i] = min(dp[i], dp[i/2]+1);
     }
     
-    for(int i=1; i<=4; i++){
-        if(op[i] != 0){
-            op[i]--;
-            rf(k+1, operation(total, i, number[k+1]));
-            op[i]++;
-        }
-    }
+    cout << dp[x] << '\n';
 }
 
 int main(){
     ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-    input();
-    rf(1, number[1]);
-    cout << _max << '\n' << _min << '\n';
+    int x;
+    cin >> x;
+    solution(x);
     return 0;
 }
