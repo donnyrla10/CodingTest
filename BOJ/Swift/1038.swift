@@ -9,8 +9,6 @@ import Foundation
 
 //input
 let n = Int(readLine()!)!
-let str = String(n).map{ $0 }
-var visited = [Bool](repeating: false, count: 1000000)
 var cnt = -1
 
 func bt(_ now: Int, _ num: String, _ dest: Int) {
@@ -26,11 +24,7 @@ func bt(_ now: Int, _ num: String, _ dest: Int) {
         if num != "" {
             if String(num.last!) <= String(i) { continue }
         }
-        if !visited[i] {
-            visited[i] = true
-            bt(now+1, num + String(i), dest)
-            visited[i] = false
-        }
+        bt(now+1, num + String(i), dest)
     }
 }
 
